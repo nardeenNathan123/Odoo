@@ -1,0 +1,68 @@
+<odoo>
+    <data>
+        <!-- Action for patient views -->
+        <record model="ir.ui.view" id="view_hms_patient_form">
+            <field name="name">hms.patient.form</field>
+            <field name="model">hms.patient</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                            <field name="name"/>
+                            <field name="last_name"/>
+                            <field name="birth_date"/>
+                            <field name="history"/>
+                            <field name="cr_ratio"/>
+                            <field name="blood_type"/>
+                            <field name="pcr"/>
+                            <field name="image"/>
+                                </group>
+                            <group>
+                            <field name="address"/>
+                            <field name="age"/>
+                            <field name="state"/>
+                            <field name="department_id"/>
+                            <field name="department_capacity" readonly="1"/>
+                            <field name="doctor_id"/>
+                                </group>
+                        </group>
+                    </sheet>
+                    <!-- Add a new page to display log history -->
+                    <notebook>
+                        <page string="Log History" name="log_history_page">
+                            <group>
+                                <field name="state_log_ids" widget="one2many_list">
+                                    <tree editable="bottom">
+                                        <field name="date"/>
+                                        <field name="created_by"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action for opening patient records -->
+        <record id="action_hms_patient_view" model="ir.actions.act_window">
+            <field name="name">Patients</field>
+            <field name="res_model">hms.patient</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'default_state': 'undetermined'}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Create a new patient record.
+                </p>
+            </field>
+        </record>
+
+        <!-- Menu items -->
+        <menuitem id="hms_menu" name="HMS Menu" sequence="10"/>
+        <menuitem id="menu_hms_patient_group_form" name="Patients" parent="hms_menu" action="action_hms_patient_view" sequence="10"/>
+        <menuitem id="menu_hms_patient_group_list" name="Patients List" parent="hms_menu" action="action_hms_patient_view" sequence="20"/>
+    </data>
+</odoo>
